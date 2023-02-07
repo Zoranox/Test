@@ -162,6 +162,32 @@ if [ ! -f "../models/stable-diffusion/sd-v1-4.ckpt" ]; then
     fi
 fi
 
+if [ -f "../models/stable-diffusion/512-base-ema.ckpt" ]; then
+    model_size=`find "../models/stable-diffusion/512-base-ema.ckpt" -printf "%s"`
+
+    if [ "$model_size" -eq "5214864007" ]; then
+        echo "Data files (weights) necessary for the StableDiffusion 2 were already downloaded"
+    else
+        printf "\n\nThe model file present at models/stable-diffusion/512-base-ema.ckpt is invalid. It is only $model_size bytes in size. Re-downloading.."
+        rm ../models/stable-diffusion/512-base-ema.ckpt
+    fi 
+fi
+
+if [ ! -f "../models/stable-diffusion/512-base-ema.ckpt" ]; then
+    echo "Downloading data files (weights) for Stable Diffusion 2.."
+
+    axel -n5 --output='../models/stable-diffusion/512-base-ema.ckpt' 'https://huggingface.co/stabilityai/stable-diffusion-2-base/resolve/main/512-base-ema.ckpt'
+
+    if [ -f "../models/stable-diffusion/512-base-ema.ckpt" ]; then
+        model_size=`find "../models/stable-diffusion/512-base-ema.ckpt" -printf "%s"`
+        if [ ! "$model_size" == "5214864007" ]; then
+	    fail "The downloaded model file was invalid! Bytes downloaded: $model_size"
+        fi
+    else
+        fail "Error downloading the data files (weights) for Stable Diffusion 2"
+    fi
+fi
+
 
 if [ -f "../models/gfpgan/GFPGANv1.3.pth" ]; then
     model_size=`find "../models/gfpgan/GFPGANv1.3.pth" -printf "%s"`
