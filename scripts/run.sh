@@ -174,7 +174,7 @@ printf "\n\nStable Diffusion is ready!\n\n"
 
 SD_PATH=`pwd`
 
-export PYTHONPATH="$INSTALL_ENV_DIR/lib/python3.8/site-packages"
+export PYTHONPATH=/app/installer_files/env/lib/python3.8/site-packages
 echo "PYTHONPATH=$PYTHONPATH"
 
 which python
@@ -182,6 +182,7 @@ python --version
 
 cd ..
 export SD_UI_PATH=`pwd`/ui
+echo "SD_UI_PATH=$SD_UI_PATH"
 cd stable-diffusion
 
 uvicorn main:server_api --app-dir "$SD_UI_PATH" --port ${SD_UI_BIND_PORT:-9000} --host ${SD_UI_BIND_IP:-0.0.0.0} --log-level error

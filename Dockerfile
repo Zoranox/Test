@@ -15,7 +15,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 #  $(wget -qO- https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-webui/master/webui.sh)
 #EOF
 #ADD https://github.com/cmdr2/stable-diffusion-ui.git /app
-ADD --link . /app/
+ADD . /app
 WORKDIR /app
 RUN <<EOT
 mkdir -p dist/linux-mac/stable-diffusion-ui/scripts
@@ -33,9 +33,9 @@ WORKDIR /app
 RUN sed -i 's/^cd.*//' scripts/start.sh 
 RUN sed -i 's/^scripts/\.\/scripts/g' scripts/start.sh 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked apt install -y libgl1 python3-opencv
+  --mount=type=cache,target=/var/lib/apt,sharing=locked apt update && apt install -y libgl1 python3-opencv
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked apt install -y axel
+  --mount=type=cache,target=/var/lib/apt,sharing=locked apt update && apt install -y axel
 #ADD --link https://huggingface.co/stabilityai/stable-diffusion-2-base/resolve/main/512-base-ema.ckpt /app/model/
 VOLUME /app/models
 WORKDIR /app
