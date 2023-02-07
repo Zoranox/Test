@@ -2,9 +2,6 @@
 
 source ./scripts/functions.sh
 
-cp sd-ui-files/scripts/on_env_start.sh scripts/
-cp sd-ui-files/scripts/bootstrap.sh scripts/
-cp sd-ui-files/scripts/check_modules.py scripts/
 
 # activate the installer env
 CONDA_BASEPATH=$(conda info --base)
@@ -17,7 +14,7 @@ if [ -e "open_dev_console.sh" ]; then
     rm "open_dev_console.sh"
 fi
 
-python -c "import os; import shutil; frm = 'sd-ui-files/ui/hotfix/9c24e6cd9f499d02c4f21a033736dabd365962dc80fe3aeb57a8f85ea45a20a3.26fead7ea4f0f843f6eb4055dfd25693f1a71f3c6871b184042d4b126244e142'; dst = os.path.join(os.path.expanduser('~'), '.cache', 'huggingface', 'transformers', '9c24e6cd9f499d02c4f21a033736dabd365962dc80fe3aeb57a8f85ea45a20a3.26fead7ea4f0f843f6eb4055dfd25693f1a71f3c6871b184042d4b126244e142'); shutil.copyfile(frm, dst) if os.path.exists(dst) else print(''); print('Hotfixed broken JSON file from OpenAI');" 
+# python -c "import os; import shutil; frm = 'sd-ui-files/ui/hotfix/9c24e6cd9f499d02c4f21a033736dabd365962dc80fe3aeb57a8f85ea45a20a3.26fead7ea4f0f843f6eb4055dfd25693f1a71f3c6871b184042d4b126244e142'; dst = os.path.join(os.path.expanduser('~'), '.cache', 'huggingface', 'transformers', '9c24e6cd9f499d02c4f21a033736dabd365962dc80fe3aeb57a8f85ea45a20a3.26fead7ea4f0f843f6eb4055dfd25693f1a71f3c6871b184042d4b126244e142'); shutil.copyfile(frm, dst) if os.path.exists(dst) else print(''); print('Hotfixed broken JSON file from OpenAI');" 
 
 # Caution, this file will make your eyes and brain bleed. It's such an unholy mess.
 # Note to self: Please rewrite this in Python. For the sake of your own sanity.
@@ -176,7 +173,7 @@ fi
 if [ ! -f "../models/stable-diffusion/512-base-ema.ckpt" ]; then
     echo "Downloading data files (weights) for Stable Diffusion 2.."
 
-    axel -n5 --output='../models/stable-diffusion/512-base-ema.ckpt' 'https://huggingface.co/stabilityai/stable-diffusion-2-base/resolve/main/512-base-ema.ckpt'
+   wget -O '../models/stable-diffusion/512-base-ema.ckpt' 'https://huggingface.co/stabilityai/stable-diffusion-2-base/resolve/main/512-base-ema.ckpt'
 
     if [ -f "../models/stable-diffusion/512-base-ema.ckpt" ]; then
         model_size=`find "../models/stable-diffusion/512-base-ema.ckpt" -printf "%s"`
@@ -301,10 +298,10 @@ if [ ! -f "../models/vae/vae-ft-mse-840000-ema-pruned.ckpt" ]; then
     fi
 fi
 
-if [ `grep -c sd_install_complete ../scripts/install_status.txt` -gt "0" ]; then
+#if [ `grep -c ../sd_install_complete ./install_status.txt` -gt "0" ]; then
     echo sd_weights_downloaded >> ../scripts/install_status.txt
     echo sd_install_complete >> ../scripts/install_status.txt
-fi
+#fi
 
 printf "\n\nStable Diffusion is ready!\n\n"
 
