@@ -56,5 +56,6 @@ RUN --mount=type=cache,target=/root/.cache/pip ./scripts/on_env_start.sh
 ENV PATH "/app:$PATH"
 ENV SD_UI_PATH=/app/ui
 WORKDIR /app/stable-diffusion
-
+RUN rm -rf /app/scripts/config.json
+RUN ln -s /app/config.json /app/scripts/config.json 
 CMD "/app/scripts/run.sh"
