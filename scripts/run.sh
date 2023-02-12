@@ -1,5 +1,6 @@
 #!/bin/bash
 cd "$(dirname "${BASH_SOURCE[0]}")"
+mkdir -p ../models/{stable-diffusion,gfpgan,realesrgan,vae}
 if [ -f "../models/stable-diffusion/sd-v1-4.ckpt" ]; then
     model_size=`find "../models/stable-diffusion/sd-v1-4.ckpt" -printf "%s"`
 

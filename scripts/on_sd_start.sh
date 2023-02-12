@@ -61,7 +61,7 @@ else
     export PYTHONNOUSERSITE=1
     export PYTHONPATH="$INSTALL_ENV_DIR/lib/python3.8/site-packages"
 
-    if pip install --upgrade torch torchvision --extra-index-url https://download.pytorch.org/whl/cu116 ; then
+    if python -m pip install --upgrade torch torchvision --extra-index-url https://download.pytorch.org/whl/cu116 ; then
         echo "Installed."
     else
         fail "torch install failed" 
@@ -77,7 +77,7 @@ if python ../scripts/check_modules.py sdkit sdkit.models ldm transformers numpy 
         export PYTHONNOUSERSITE=1
         export PYTHONPATH="$INSTALL_ENV_DIR/lib/python3.8/site-packages"
 
-        pip install --upgrade sdkit -q
+        python -m pip install --upgrade sdkit==1.0.35 -q
     fi
 else
     echo "Installing sdkit: https://pypi.org/project/sdkit/"
@@ -85,7 +85,7 @@ else
     export PYTHONNOUSERSITE=1
     export PYTHONPATH="$INSTALL_ENV_DIR/lib/python3.8/site-packages"
 
-    if pip install sdkit ; then
+    if python -m pip install sdkit ; then
         echo "Installed."
     else
         fail "sdkit install failed"
@@ -95,7 +95,7 @@ fi
 python -c "from importlib.metadata import version; print('sdkit version:', version('sdkit'))"
 
 # upgrade stable-diffusion-sdkit
-pip install --upgrade stable-diffusion-sdkit -q
+python -m pip install --upgrade stable-diffusion-sdkit -q
 python -c "from importlib.metadata import version; print('stable-diffusion version:', version('stable-diffusion-sdkit'))"
 
 # install rich
@@ -107,7 +107,7 @@ else
     export PYTHONNOUSERSITE=1
     export PYTHONPATH="$INSTALL_ENV_DIR/lib/python3.8/site-packages"
 
-    if pip install rich ; then
+    if python -m pip install rich ; then
         echo "Installed."
     else
         fail "Install failed for rich"
