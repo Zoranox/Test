@@ -732,7 +732,7 @@
     }
     const TASK_DEFAULTS = {
         "sampler_name": "plms",
-        "use_stable_diffusion_model": "sd-v1-4",
+        "use_stable_diffusion_model": "512-base-ema",
         "num_inference_steps": 50,
         "guidance_scale": 7.5,
         "negative_prompt": "",
