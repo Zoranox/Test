@@ -61,7 +61,7 @@ else
     export PYTHONNOUSERSITE=1
     export PYTHONPATH="$INSTALL_ENV_DIR/lib/python3.8/site-packages"
 
-    if python -m pip install --upgrade torch torchvision --extra-index-url https://download.pytorch.org/whl/cu116 ; then
+    if python -m pip install --upgrade --pre torch torchvision --force-reinstall --index-url https://download.pytorch.org/whl/nightly/cu117 ; then
         echo "Installed."
     else
         fail "torch install failed" 

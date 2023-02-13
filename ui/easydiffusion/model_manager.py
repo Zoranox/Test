@@ -4,6 +4,7 @@ from easydiffusion import app, device_manager
 from easydiffusion.types import TaskData
 from easydiffusion.utils import log
 
+import torch
 from sdkit import Context
 from sdkit.models import load_model, unload_model, get_model_info_from_db, scan_model
 from sdkit.utils import hash_file_quick
@@ -40,6 +41,7 @@ def load_default_models(context: Context):
         context.model_paths[model_type] = resolve_model_to_use(model_type=model_type)
         try:
            load_model(context, model_type)
+           context.models[model_type] = torch.compile(context.models[model_type])
         except Exception as e:
            log.error(f'[red]Error while loading {model_type} model: {context.model_paths[model_type]}[/red]')
            log.error(f'[red]Error: {e}[/red]')
@@ -107,6 +109,8 @@ def reload_models_if_necessary(context: Context, task_data: TaskData):
 
         action_fn = unload_model if context.model_paths[model_type] is None else load_model
         action_fn(context, model_type, scan_model=False) # we've scanned them already
+        if context.model_paths[model_type] is not None:
+            torch.compile(context.models[model_type])
 
 def resolve_model_paths(task_data: TaskData):
     task_data.use_stable_diffusion_model = resolve_model_to_use(task_data.use_stable_diffusion_model, model_type='stable-diffusion')
@@ -154,12 +158,12 @@ def is_malicious_model(file_path):
 def getModels():
     models = {
         'active': {
-            'stable-diffusion': 'sd-v1-4',
+            'stable-diffusion': '512-base-ema',
             'vae': '',
             'hypernetwork': '',
         },
         'options': {
-            'stable-diffusion': ['sd-v1-4'],
+            'stable-diffusion': ['512-base-ema', '768-v-ema', 'sd-v1-4'],
             'vae': [],
             'hypernetwork': [],
         },
