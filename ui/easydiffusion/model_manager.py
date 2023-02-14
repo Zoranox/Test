@@ -163,7 +163,7 @@ def getModels():
             'hypernetwork': '',
         },
         'options': {
-            'stable-diffusion': ['512-base-ema', '768-v-ema', 'sd-v1-4'],
+            'stable-diffusion': ['512-base-ema', '768-v-ema', 'openjourney-v2.ckpt', 'sd-v1-4'],
             'vae': [],
             'hypernetwork': [],
         },
